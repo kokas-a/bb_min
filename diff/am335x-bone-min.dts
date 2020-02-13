@@ -1,0 +1,202 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ */
+/dts-v1/;
+
+#include "am33xx.dtsi"
+#include "am335x-bone-common.dtsi"
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+	model = "TI AM335x BoneMin";
+	compatible = "ti,am335x-bone", "ti,am33xx";
+};
+
+&ldo3_reg {
+	regulator-min-microvolt = <1800000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-always-on;
+};
+
+&mmc1 {
+	vmmc-supply = <&ldo3_reg>;
+};
+
+&am33xx_pinmux {
+	nandflash_pins_s0: nandflash_pins_s0 {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD0, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD1, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD2, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD3, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD4, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD5, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD6, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD7, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_WAIT0, PIN_INPUT_PULLUP, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_WPN, PIN_INPUT_PULLUP, MUX_MODE7)	/* gpmc_wpn.gpio0_30 */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN0, PIN_OUTPUT, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_ADVN_ALE, PIN_OUTPUT, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_OEN_REN, PIN_OUTPUT, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_WEN, PIN_OUTPUT, MUX_MODE0)
+			AM33XX_PADCONF(AM335X_PIN_GPMC_BEN0_CLE, PIN_OUTPUT, MUX_MODE0)
+		>;
+	};
+	
+	dcan0_pins: pinmux_dcan0_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_UART1_CTSN, PIN_OUTPUT, MUX_MODE2)	/* CAN TX */
+			AM33XX_PADCONF(AM335X_PIN_UART1_RTSN, PIN_INPUT, MUX_MODE2)		/* CAN RX */
+		>;
+	};
+	
+	dcan1_pins: pinmux_dcan1_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_OUTPUT, MUX_MODE2)		/* CAN TX */
+			AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_INPUT, MUX_MODE2)		/* CAN RX */
+		>;
+	};
+};
+
+&elm {
+	status = "okay";
+};
+
+&dcan0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&dcan0_pins>;
+
+	status = "okay";
+};
+
+&dcan1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&dcan1_pins>;
+
+	status = "okay";
+};
+
+&gpmc {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&nandflash_pins_s0>;
+	ranges = <0 0 0x08000000 0x1000000>;	/* CS0: 16MB for NAND */
+	nand@0,0 {
+		compatible = "ti,omap2-nand";
+		reg = <0 0 4>; /* CS0, offset 0, IO size 4 */
+		interrupt-parent = <&gpmc>;
+		interrupts = <0 IRQ_TYPE_NONE>, /* fifoevent */
+			     <1 IRQ_TYPE_NONE>;	/* termcount */
+		rb-gpios = <&gpmc 0 GPIO_ACTIVE_HIGH>; /* gpmc_wait0 */
+		ti,nand-xfer-type = "prefetch-dma";
+		ti,nand-ecc-opt = "bch8";
+		ti,elm-id = <&elm>;
+		nand-bus-width = <8>;
+		gpmc,device-width = <1>;
+
+        gpmc,sync-clk-ps = <0>;
+        gpmc,cs-on-ns = <0>;
+        gpmc,cs-rd-off-ns = <280>;
+        gpmc,cs-wr-off-ns = <280>;
+        gpmc,adv-on-ns = <50>;     
+        gpmc,adv-rd-off-ns = <280>;
+        gpmc,adv-wr-off-ns = <280>;
+        gpmc,we-on-ns = <50>;
+        gpmc,we-off-ns = <200>;
+        gpmc,oe-on-ns = <50>;
+        gpmc,oe-off-ns = <150>;
+        gpmc,access-ns = <200>;
+        gpmc,rd-cycle-ns = <300>;
+        gpmc,wr-cycle-ns = <300>;
+        gpmc,wait-on-read = "true";
+        gpmc,wait-on-write = "true";
+        gpmc,bus-turnaround-ns = <0>;
+        gpmc,cycle2cycle-delay-ns = <120>;
+        gpmc,cycle2cycle-samecsen = "true";
+        gpmc,clk-activation-ns = <0>;
+        gpmc,wait-monitoring-ns = <0>;
+        gpmc,wr-access-ns = <40>;
+        gpmc,wr-data-mux-bus-ns = <0>;
+		
+/*	
+		gpmc,sync-clk-ps = <0>;
+		gpmc,cs-on-ns = <0>;
+		gpmc,cs-rd-off-ns = <44>;
+		gpmc,cs-wr-off-ns = <44>;
+		gpmc,adv-on-ns = <6>;
+		gpmc,adv-rd-off-ns = <34>;
+		gpmc,adv-wr-off-ns = <44>;
+		gpmc,we-on-ns = <0>;
+		gpmc,we-off-ns = <40>;
+		gpmc,oe-on-ns = <0>;
+		gpmc,oe-off-ns = <54>;
+		gpmc,access-ns = <64>;
+		gpmc,rd-cycle-ns = <82>;
+		gpmc,wr-cycle-ns = <82>;
+		gpmc,bus-turnaround-ns = <0>;
+		gpmc,cycle2cycle-delay-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-access-ns = <40>;
+		gpmc,wr-data-mux-bus-ns = <0>;
+*/
+
+	
+		/* MTD partition table */
+		/* All SPL-* partitions are sized to minimal length
+		 * which can be independently programmable. For
+		 * NAND flash this is equal to size of erase-block */
+		#address-cells = <1>;
+		#size-cells = <1>;
+		partition@0 {
+			label = "spl";
+			reg = <0x0 0x20000>;
+		};
+
+		partition@1 {
+			label = "spl_backup1";
+			reg = <0x20000 0x20000>;
+		};
+
+		partition@2 {
+			label = "spl_backup2";
+			reg = <0x40000 0x20000>;
+		};
+
+		partition@3 {
+			label = "spl_backup3";
+			reg = <0x60000 0x20000>;
+		};
+
+		partition@4 {
+			label = "u-boot";
+			reg = <0x80000 0x1c0000>;
+		};
+
+		partition@5 {
+			label = "bootenv";
+			reg = <0x240000 0x20000>;
+		};
+		
+		partition@6 {
+			label = "fdt";
+			reg = <0x260000 0x20000>;
+		};
+
+		partition@7 {
+			label = "kernel";
+			reg = <0x280000 0x500000>;
+		};
+
+		partition@8 {
+			label = "root";
+			reg = <0x800000 0x1400000>;
+		};
+		
+		partition@9 {
+			label = "config";
+			reg = <0x1c00000 0x1400000>;
+		};
+	};
+};
+

@@ -1,0 +1,13 @@
+tftp ${loadaddr} uImage
+nand read ${fdtaddr} ${nandfdtaddr} ${nandfdtsize}
+bootm ${loadaddr} - ${fdtaddr}
+nand read 0x805f37c0 ${nandfdtaddr} ${nandfdtsize}
+
+
+
+
+setenv rootpath /home/room205/sandbox/rootfs
+
+setenv bootargs console=${console} root=/dev/nfs nfsroot=${serverip}:${rootpath},v3,tcp,nolock rw ip=10.10.0.10:10.10.0.1:10.10.0.1:255.255.255.0::eth0:off earlyprintk
+
+tftp image.img && bootz
