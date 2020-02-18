@@ -20,7 +20,8 @@
 };
 
 &mmc1 {
-	vmmc-supply = <&ldo3_reg>;
+	/* vmmc-supply = <&ldo3_reg>;*/
+	vmmc-supply = <&vmmcsd_fixed>;
 };
 
 &am33xx_pinmux {
@@ -50,25 +51,28 @@
 			AM33XX_PADCONF(AM335X_PIN_UART1_RTSN, PIN_INPUT, MUX_MODE2)		/* CAN RX */
 		>;
 	};
-	
-	dcan1_pins: pinmux_dcan1_pins {
-		pinctrl-single,pins = <
-			AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_OUTPUT, MUX_MODE2)		/* CAN TX */
-			AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_INPUT, MUX_MODE2)		/* CAN RX */
-		>;
-	};
+
+        dcan1_pins: pinmux_dcan1_pins {
+                pinctrl-single,pins = <
+                        AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_OUTPUT, MUX_MODE2)
+                        AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_INPUT, MUX_MODE2)
+                >;
+        };
+
 };
 
 &elm {
 	status = "okay";
 };
 
+/*
 &dcan0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&dcan0_pins>;
 
 	status = "okay";
 };
+*/
 
 &dcan1 {
 	pinctrl-names = "default";
