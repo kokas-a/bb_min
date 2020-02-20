@@ -11,6 +11,13 @@
 / {
 	model = "TI AM335x BoneMin";
 	compatible = "ti,am335x-bone", "ti,am33xx";
+	
+	wifi_pwrseq: wifi_pwrseq {
+		compatible = "mmc-pwrseq-simple";
+		reset-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>; /* GPIO_1[12] */
+		/* The esp8089 needs 200 ms after driving wifi-en high */
+		post-power-on-delay-ms = <200>;
+	};
 };
 
 &ldo3_reg {
@@ -45,6 +52,22 @@
 		>;
 	};
 	
+	mmc2_pins: pinmux_emmc_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN1, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_csn1.mmc1_clk */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN2, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_csn2.mmc1_cmd */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD8,  PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad8.mmc1_dat0 */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD9,  PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad9.mmc1_dat1 */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD10, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad10.mmc1_dat2 */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD11, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad11.mmc1_dat3 */
+			
+			// AM33XX_PADCONF(AM335X_PIN_GPMC_AD12, PIN_INPUT_PULLUP, MUX_MODE7) /* gpmc_ad12.mmc1_dat4 -> GPIO_1[12] */
+			// AM33XX_PADCONF(AM335X_PIN_GPMC_AD13, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad13.mmc1_dat5 */
+			// AM33XX_PADCONF(AM335X_PIN_GPMC_AD14, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad14.mmc1_dat6 */
+			// AM33XX_PADCONF(AM335X_PIN_GPMC_AD15, PIN_INPUT_PULLUP, MUX_MODE2) /* gpmc_ad15.mmc1_dat7 */
+		>;
+	};
+	
 	dcan0_pins: pinmux_dcan0_pins {
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_UART1_CTSN, PIN_OUTPUT, MUX_MODE2)	/* CAN TX */
@@ -52,12 +75,18 @@
 		>;
 	};
 
-        dcan1_pins: pinmux_dcan1_pins {
-                pinctrl-single,pins = <
-                        AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_OUTPUT, MUX_MODE2)
-                        AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_INPUT, MUX_MODE2)
-                >;
-        };
+	dcan1_pins: pinmux_dcan1_pins {
+			pinctrl-single,pins = <
+					AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_OUTPUT, MUX_MODE2)
+					AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_INPUT, MUX_MODE2)
+			>;
+	};
+	
+	wifi_rst_pin: pinmux_wifi_rst {
+		pinctrl-single,pins = <
+		AM33XX_IOPAD(AM335X_PIN_GPMC_AD12, PIN_INPUT | MUX_MODE7) /* GPMC_AD12.gpio1_12  */
+		>;
+	};
 
 };
 
@@ -79,6 +108,26 @@
 	pinctrl-0 = <&dcan1_pins>;
 
 	status = "okay";
+};
+
+&mmc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc2_pins &wifi_rst_pin>;
+	/* vmmc-supply = <&vmmcsd_fixed>; */
+	vmmc-supply = <&ldo4_reg>;
+	mmc-pwrseq = <&wifi_pwrseq>;
+	bus-width = <4>;
+	non-removable;
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	esp8089: sdio_wifi@1 {
+		compatible = "esp,esp8089";
+		reg = <1>;
+		esp,crystal-26M-en = <2>;
+		status = "okay";
+	};
 };
 
 &gpmc {
