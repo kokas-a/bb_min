@@ -1,0 +1,154 @@
+EESchema Schematic File Version 4
+LIBS:test-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 5
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text GLabel 6600 2750 2    50   Input ~ 0
+B_UART0_RX
+Text GLabel 6600 2850 2    50   Input ~ 0
+B_UART0_TX
+$Comp
+L Connector:USB_B_Micro J2
+U 1 1 5ECF8C76
+P 3000 4000
+F 0 "J2" H 3055 4467 50  0000 C CNN
+F 1 "USB_B_Micro" H 3055 4376 50  0000 C CNN
+F 2 "Connector_USB:USB_Micro-B_Molex_47346-0001" H 3150 3950 50  0001 C CNN
+F 3 "~" H 3150 3950 50  0001 C CNN
+	1    3000 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDD #PWR0110
+U 1 1 5ECF8D0E
+P 3000 4700
+F 0 "#PWR0110" H 3000 4450 50  0001 C CNN
+F 1 "GNDD" H 3004 4545 50  0000 C CNN
+F 2 "" H 3000 4700 50  0001 C CNN
+F 3 "" H 3000 4700 50  0001 C CNN
+	1    3000 4700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3000 4400 3000 4700
+Wire Wire Line
+	3300 4000 3500 4000
+Wire Wire Line
+	3300 4100 3500 4100
+Wire Wire Line
+	3500 4100 3500 4200
+Wire Wire Line
+	3300 3800 3550 3800
+Wire Wire Line
+	3550 3800 3550 3450
+Wire Wire Line
+	3550 3450 4000 3450
+Wire Wire Line
+	4000 3450 4000 3600
+$Comp
+L power:GNDD #PWR0117
+U 1 1 5ED05786
+P 4000 4800
+F 0 "#PWR0117" H 4000 4550 50  0001 C CNN
+F 1 "GNDD" H 4004 4645 50  0000 C CNN
+F 2 "" H 4000 4800 50  0001 C CNN
+F 3 "" H 4000 4800 50  0001 C CNN
+	1    4000 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 4600 4000 4800
+$Comp
+L Device:R R1
+U 1 1 5ED061D5
+P 4650 2700
+F 0 "R1" H 4720 2746 50  0000 L CNN
+F 1 "R" H 4720 2655 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4580 2700 50  0001 C CNN
+F 3 "~" H 4650 2700 50  0001 C CNN
+	1    4650 2700
+	1    0    0    -1  
+$EndComp
+Text Notes 4900 2350 0    100  ~ 20
+TODO: package qfn20/24/28 ?
+$Comp
+L cp2102:CP2102 U2
+U 1 1 5ED231E5
+P 6200 4250
+F 0 "U2" H 5460 4247 60  0000 R CNN
+F 1 "CP2102" H 5460 4353 60  0000 R CNN
+F 2 "" H 6200 4250 60  0001 C CNN
+F 3 "" H 6200 4250 60  0001 C CNN
+	1    6200 4250
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GNDD #PWR0109
+U 1 1 5ED2363F
+P 5800 5350
+F 0 "#PWR0109" H 5800 5100 50  0001 C CNN
+F 1 "GNDD" H 5804 5195 50  0000 C CNN
+F 2 "" H 5800 5350 50  0001 C CNN
+F 3 "" H 5800 5350 50  0001 C CNN
+	1    5800 5350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Power_Protection:TPD2S017 U4
+U 1 1 5ED0320C
+P 4000 4100
+F 0 "U4" H 4000 4778 50  0000 C CNN
+F 1 "TPD2S017" H 4000 4687 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-6" H 3250 3750 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tpd2s017.pdf" H 4000 4100 50  0001 C CNN
+	1    4000 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 4200 5500 4200
+Wire Wire Line
+	4000 3450 5950 3450
+Wire Wire Line
+	5950 3450 5950 3500
+Connection ~ 4000 3450
+Wire Wire Line
+	5500 4300 4800 4300
+Wire Wire Line
+	4800 4300 4800 4000
+Wire Wire Line
+	4800 4000 4500 4000
+Wire Wire Line
+	5500 4400 5350 4400
+Wire Wire Line
+	5350 4400 5350 5250
+Wire Wire Line
+	5350 5250 5800 5250
+Wire Wire Line
+	5800 5250 5800 5100
+Wire Wire Line
+	5800 5350 5800 5250
+Connection ~ 5800 5250
+Wire Wire Line
+	6300 5100 6300 5300
+Wire Wire Line
+	6300 5300 6400 5300
+Wire Wire Line
+	6400 5300 6400 5100
+Wire Wire Line
+	5900 5100 5900 5250
+Wire Wire Line
+	5900 5250 6000 5250
+Wire Wire Line
+	6000 5250 6000 5100
+$EndSCHEMATC

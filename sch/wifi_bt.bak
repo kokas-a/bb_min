@@ -1,0 +1,167 @@
+EESchema Schematic File Version 4
+LIBS:test-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 5
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L R40:AP6212 U1
+U 1 1 5ECE3AD8
+P 5350 3300
+F 0 "U1" H 5350 4828 50  0000 C CNN
+F 1 "AP6212" H 5350 4737 50  0000 C CNN
+F 2 "R40:AP6212" H 5550 3250 50  0001 C CNN
+F 3 "" H 5550 3250 50  0001 C CNN
+	1    5350 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Pack04 RN1
+U 1 1 5ECFD0D2
+P 3150 3400
+F 0 "RN1" V 2733 3400 50  0000 C CNN
+F 1 "R_Pack04" V 2824 3400 50  0000 C CNN
+F 2 "Resistor_SMD:R_Array_Convex_4x0603" V 3425 3400 50  0001 C CNN
+F 3 "~" H 3150 3400 50  0001 C CNN
+	1    3150 3400
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_Pack04 RN2
+U 1 1 5ECFD13F
+P 2600 3800
+F 0 "RN2" V 2183 3800 50  0000 C CNN
+F 1 "R_Pack04" V 2274 3800 50  0000 C CNN
+F 2 "Resistor_SMD:R_Array_Convex_4x0603" V 2875 3800 50  0001 C CNN
+F 3 "~" H 2600 3800 50  0001 C CNN
+	1    2600 3800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3350 3200 3700 3200
+Wire Wire Line
+	3350 3300 3700 3300
+Wire Wire Line
+	3350 3400 3700 3400
+Wire Wire Line
+	3350 3500 3700 3500
+Wire Wire Line
+	2800 3600 3700 3600
+Wire Wire Line
+	3700 3700 2800 3700
+Wire Wire Line
+	2800 3800 3700 3800
+Wire Wire Line
+	3700 3900 2800 3900
+Text GLabel 1550 3800 0    50   Input ~ 0
+B_MMC1_DAT0
+Text GLabel 1550 3900 0    50   Input ~ 0
+B_MMC1_DAT1
+Text GLabel 1550 3400 0    50   Input ~ 0
+B_MMC1_DAT2
+Text GLabel 1550 3500 0    50   Input ~ 0
+B_MMC1_DAT3
+Text GLabel 1550 3600 0    50   Input ~ 0
+B_MMC1_CMD
+Text GLabel 1550 3700 0    50   Input ~ 0
+B_MMC1_CLK
+Wire Wire Line
+	1550 3900 2400 3900
+Wire Wire Line
+	1550 3800 2400 3800
+Wire Wire Line
+	1550 3700 2400 3700
+Wire Wire Line
+	1550 3600 2400 3600
+Wire Wire Line
+	1550 3500 2950 3500
+Wire Wire Line
+	1550 3400 2950 3400
+$Comp
+L power:GNDD #PWR0111
+U 1 1 5ECFE3ED
+P 6400 1950
+F 0 "#PWR0111" H 6400 1700 50  0001 C CNN
+F 1 "GNDD" H 6404 1795 50  0000 C CNN
+F 2 "" H 6400 1950 50  0001 C CNN
+F 3 "" H 6400 1950 50  0001 C CNN
+	1    6400 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 1950 5600 1700
+Wire Wire Line
+	5600 1700 5800 1700
+Wire Wire Line
+	6400 1700 6400 1950
+Wire Wire Line
+	5800 1950 5800 1700
+Connection ~ 5800 1700
+Wire Wire Line
+	5800 1700 6400 1700
+$Comp
+L power:GNDD #PWR0112
+U 1 1 5ECFE8E3
+P 7250 4650
+F 0 "#PWR0112" H 7250 4400 50  0001 C CNN
+F 1 "GNDD" H 7254 4495 50  0000 C CNN
+F 2 "" H 7250 4650 50  0001 C CNN
+F 3 "" H 7250 4650 50  0001 C CNN
+	1    7250 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDD #PWR0113
+U 1 1 5ECFE922
+P 5900 5150
+F 0 "#PWR0113" H 5900 4900 50  0001 C CNN
+F 1 "GNDD" H 5904 4995 50  0000 C CNN
+F 2 "" H 5900 5150 50  0001 C CNN
+F 3 "" H 5900 5150 50  0001 C CNN
+	1    5900 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5900 4850 5900 4950
+Wire Wire Line
+	5700 4850 5700 4950
+Wire Wire Line
+	5700 4950 5900 4950
+Connection ~ 5900 4950
+Wire Wire Line
+	5900 4950 5900 5150
+Wire Wire Line
+	7000 4100 7250 4100
+Wire Wire Line
+	7250 4100 7250 4650
+$Comp
+L power:GNDD #PWR0114
+U 1 1 5ECFF1C8
+P 3500 4650
+F 0 "#PWR0114" H 3500 4400 50  0001 C CNN
+F 1 "GNDD" H 3504 4495 50  0000 C CNN
+F 2 "" H 3500 4650 50  0001 C CNN
+F 3 "" H 3500 4650 50  0001 C CNN
+	1    3500 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3700 4000 3500 4000
+Wire Wire Line
+	3500 4000 3500 4200
+Wire Wire Line
+	3700 4200 3500 4200
+Connection ~ 3500 4200
+Wire Wire Line
+	3500 4200 3500 4650
+$EndSCHEMATC
