@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:test-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -14,9 +13,9 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text GLabel 6600 2750 2    50   Input ~ 0
+Text GLabel 6350 5700 2    50   Input ~ 0
 B_UART0_RX
-Text GLabel 6600 2850 2    50   Input ~ 0
+Text GLabel 6350 5600 2    50   Input ~ 0
 B_UART0_TX
 $Comp
 L Connector:USB_B_Micro J2
@@ -72,12 +71,12 @@ Wire Wire Line
 $Comp
 L Device:R R1
 U 1 1 5ED061D5
-P 4650 2700
-F 0 "R1" H 4720 2746 50  0000 L CNN
-F 1 "R" H 4720 2655 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4580 2700 50  0001 C CNN
-F 3 "~" H 4650 2700 50  0001 C CNN
-	1    4650 2700
+P 6050 3050
+F 0 "R1" H 6120 3096 50  0000 L CNN
+F 1 "R" H 6120 3005 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5980 3050 50  0001 C CNN
+F 3 "~" H 6050 3050 50  0001 C CNN
+	1    6050 3050
 	1    0    0    -1  
 $EndComp
 Text Notes 4900 2350 0    100  ~ 20
@@ -118,7 +117,7 @@ $EndComp
 Wire Wire Line
 	4500 4200 5500 4200
 Wire Wire Line
-	4000 3450 5950 3450
+	4000 3450 5150 3450
 Wire Wire Line
 	5950 3450 5950 3500
 Connection ~ 4000 3450
@@ -151,4 +150,60 @@ Wire Wire Line
 	5900 5250 6000 5250
 Wire Wire Line
 	6000 5250 6000 5100
+Wire Wire Line
+	5500 4000 5150 4000
+Wire Wire Line
+	5150 4000 5150 3450
+Connection ~ 5150 3450
+Wire Wire Line
+	5150 3450 5950 3450
+Wire Wire Line
+	6050 3500 6050 3200
+Wire Wire Line
+	6200 5100 6200 5600
+Wire Wire Line
+	6200 5600 6350 5600
+Wire Wire Line
+	6350 5700 6100 5700
+Wire Wire Line
+	6100 5700 6100 5100
+$Comp
+L Device:C C8
+U 1 1 5F2B1BE6
+P 5150 4650
+F 0 "C8" H 5035 4604 50  0000 R CNN
+F 1 "C" H 5035 4695 50  0000 R CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 5188 4500 50  0001 C CNN
+F 3 "~" H 5150 4650 50  0001 C CNN
+	1    5150 4650
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C7
+U 1 1 5F2B6F97
+P 4900 4650
+F 0 "C7" H 5015 4696 50  0000 L CNN
+F 1 "C" H 5015 4605 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 4938 4500 50  0001 C CNN
+F 3 "~" H 4900 4650 50  0001 C CNN
+	1    4900 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 4100 4900 4500
+Wire Wire Line
+	4900 4100 5500 4100
+Wire Wire Line
+	5150 4000 5150 4500
+Connection ~ 5150 4000
+Wire Wire Line
+	5350 5250 5150 5250
+Wire Wire Line
+	4900 5250 4900 4800
+Connection ~ 5350 5250
+Wire Wire Line
+	5150 4800 5150 5250
+Connection ~ 5150 5250
+Wire Wire Line
+	5150 5250 4900 5250
 $EndSCHEMATC

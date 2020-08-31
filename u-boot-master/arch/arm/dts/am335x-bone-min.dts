@@ -1,0 +1,184 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ */
+/dts-v1/;
+
+#include "am33xx.dtsi"
+#include "am335x-bone-common.dtsi"
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+	model = "TI AM335x BoneMin";
+	compatible = "ti,am335x-bone", "ti,am33xx";
+	
+	wifi_pwrseq: wifi_pwrseq {
+		compatible = "mmc-pwrseq-simple";
+		reset-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>; /* GPIO_1[12] */
+		/* The esp8089 needs 200 ms after driving wifi-en high */
+		post-power-on-delay-ms = <200>;
+	};
+};
+
+&ldo3_reg {
+	regulator-min-microvolt = <1800000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-always-on;
+};
+
+&mmc1 {
+	/* vmmc-supply = <&ldo3_reg>;*/
+	vmmc-supply = <&vmmcsd_fixed>;
+};
+
+&am33xx_pinmux {
+	nandflash_pins_s0: nandflash_pins_s0 {
+		pinctrl-single,pins = <
+			0x0 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad0.gpmc_ad0 */
+			0x4 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad1.gpmc_ad1 */
+			0x8 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad2.gpmc_ad2 */
+			0xc (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad3.gpmc_ad3 */
+			0x10 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad4.gpmc_ad4 */
+			0x14 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad5.gpmc_ad5 */
+			0x18 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad6.gpmc_ad6 */
+			0x1c (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_ad7.gpmc_ad7 */
+			0x70 (PIN_INPUT_PULLUP | MUX_MODE0)	/* gpmc_wait0.gpmc_wait0 */
+			0x74 (PIN_INPUT_PULLUP | MUX_MODE7)	/* gpmc_wpn.gpio0_30 */
+			0x7c (PIN_OUTPUT | MUX_MODE0)		/* gpmc_csn0.gpmc_csn0  */
+			0x90 (PIN_OUTPUT | MUX_MODE0)		/* gpmc_advn_ale.gpmc_advn_ale */
+			0x94 (PIN_OUTPUT | MUX_MODE0)		/* gpmc_oen_ren.gpmc_oen_ren */
+			0x98 (PIN_OUTPUT | MUX_MODE0)		/* gpmc_wen.gpmc_wen */
+			0x9c (PIN_OUTPUT | MUX_MODE0)		/* gpmc_be0n_cle.gpmc_be0n_cle */
+		>;
+	};
+	
+};
+
+&elm {
+	status = "okay";
+};
+
+
+&gpmc {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&nandflash_pins_s0>;
+	ranges = <0 0 0x08000000 0x1000000>;	/* CS0: 16MB for NAND */
+	nand@0,0 {
+		compatible = "ti,omap2-nand";
+		reg = <0 0 4>; /* CS0, offset 0, IO size 4 */
+		interrupt-parent = <&gpmc>;
+		interrupts = <0 IRQ_TYPE_NONE>, /* fifoevent */
+			     <1 IRQ_TYPE_NONE>;	/* termcount */
+		rb-gpios = <&gpmc 0 GPIO_ACTIVE_HIGH>; /* gpmc_wait0 */
+		ti,nand-xfer-type = "prefetch-dma";
+		ti,nand-ecc-opt = "bch8";
+		ti,elm-id = <&elm>;
+		nand-bus-width = <8>;
+		gpmc,device-width = <1>;
+
+        gpmc,sync-clk-ps = <0>;
+        gpmc,cs-on-ns = <0>;
+        gpmc,cs-rd-off-ns = <280>;
+        gpmc,cs-wr-off-ns = <280>;
+        gpmc,adv-on-ns = <50>;     
+        gpmc,adv-rd-off-ns = <280>;
+        gpmc,adv-wr-off-ns = <280>;
+        gpmc,we-on-ns = <50>;
+        gpmc,we-off-ns = <200>;
+        gpmc,oe-on-ns = <50>;
+        gpmc,oe-off-ns = <150>;
+        gpmc,access-ns = <200>;
+        gpmc,rd-cycle-ns = <300>;
+        gpmc,wr-cycle-ns = <300>;
+        gpmc,wait-on-read = "true";
+        gpmc,wait-on-write = "true";
+        gpmc,bus-turnaround-ns = <0>;
+        gpmc,cycle2cycle-delay-ns = <120>;
+        gpmc,cycle2cycle-samecsen = "true";
+        gpmc,clk-activation-ns = <0>;
+        gpmc,wait-monitoring-ns = <0>;
+        gpmc,wr-access-ns = <40>;
+        gpmc,wr-data-mux-bus-ns = <0>;
+		
+/*	
+		gpmc,sync-clk-ps = <0>;
+		gpmc,cs-on-ns = <0>;
+		gpmc,cs-rd-off-ns = <44>;
+		gpmc,cs-wr-off-ns = <44>;
+		gpmc,adv-on-ns = <6>;
+		gpmc,adv-rd-off-ns = <34>;
+		gpmc,adv-wr-off-ns = <44>;
+		gpmc,we-on-ns = <0>;
+		gpmc,we-off-ns = <40>;
+		gpmc,oe-on-ns = <0>;
+		gpmc,oe-off-ns = <54>;
+		gpmc,access-ns = <64>;
+		gpmc,rd-cycle-ns = <82>;
+		gpmc,wr-cycle-ns = <82>;
+		gpmc,bus-turnaround-ns = <0>;
+		gpmc,cycle2cycle-delay-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-access-ns = <40>;
+		gpmc,wr-data-mux-bus-ns = <0>;
+*/
+
+	
+		/* MTD partition table */
+		/* All SPL-* partitions are sized to minimal length
+		 * which can be independently programmable. For
+		 * NAND flash this is equal to size of erase-block */
+		#address-cells = <1>;
+		#size-cells = <1>;
+		partition@0 {
+			label = "spl";
+			reg = <0x0 0x20000>;
+		};
+
+		partition@1 {
+			label = "spl_backup1";
+			reg = <0x20000 0x20000>;
+		};
+
+		partition@2 {
+			label = "spl_backup2";
+			reg = <0x40000 0x20000>;
+		};
+
+		partition@3 {
+			label = "spl_backup3";
+			reg = <0x60000 0x20000>;
+		};
+
+		partition@4 {
+			label = "u-boot";
+			reg = <0x80000 0x1c0000>;
+		};
+
+		partition@5 {
+			label = "bootenv";
+			reg = <0x240000 0x20000>;
+		};
+		
+		partition@6 {
+			label = "fdt";
+			reg = <0x260000 0x20000>;
+		};
+
+		partition@7 {
+			label = "kernel";
+			reg = <0x280000 0x500000>;
+		};
+
+		partition@8 {
+			label = "root";
+			reg = <0x800000 0x1400000>;
+		};
+		
+		partition@9 {
+			label = "config";
+			reg = <0x1c00000 0x1400000>;
+		};
+	};
+};
+

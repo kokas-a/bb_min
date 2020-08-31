@@ -1,4 +1,4 @@
 (sym_lib_table
-  (lib (name R40)(type Legacy)(uri /home/kolyan/sandbox/kicad/test/libs/R40.lib)(options "")(descr ""))
-  (lib (name cp2102)(type Legacy)(uri /home/kolyan/sandbox/kicad/test/libs/cp2102.lib)(options "")(descr ""))
+  (lib (name R40)(type Legacy)(uri ${KIPRJMOD}/libs/R40.lib)(options "")(descr ""))
+  (lib (name cp2102)(type Legacy)(uri ${KIPRJMOD}/libs/cp2102.lib)(options "")(descr ""))
 )
