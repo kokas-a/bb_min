@@ -6,7 +6,7 @@ export ARCH=arm
 
 export CROSS_COMPILE=arm-none-eabi-
 
-make am335x_evm_defconfig
+cp config_bbb .config
 
 # Prepare SD-Card:
 
